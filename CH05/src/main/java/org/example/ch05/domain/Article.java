@@ -1,8 +1,13 @@
 package org.example.ch05.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Article {
 
     @Id
@@ -16,27 +21,10 @@ public class Article {
     @Column(name = "content", nullable = false)
     private String content;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
+    @Builder
+    public Article(String title, String content) {
         this.title = title;
-    }
-
-    public void setContent(String content) {
         this.content = content;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
 }
