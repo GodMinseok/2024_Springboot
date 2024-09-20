@@ -6,6 +6,8 @@ import org.example.ch05.dto.AddArticleRequest;
 import org.example.ch05.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BlogService {
@@ -15,5 +17,9 @@ public class BlogService {
     public Article save(AddArticleRequest request) {
         // db에 request 담긴 값을 Article 테이블에 등록
         return articleRepository.save(request.toEntity());
+    }
+
+    public List<Article> findAll() {
+        return articleRepository.findAll();
     }
 }
