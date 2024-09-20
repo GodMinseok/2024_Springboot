@@ -3,6 +3,7 @@ package org.example.ch05.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.ch05.domain.Article;
 import org.example.ch05.dto.AddArticleRequest;
+import org.example.ch05.dto.UpdateArticleRequest;
 import org.example.ch05.repository.ArticleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
@@ -136,5 +137,33 @@ class BlogControllerTest {
         List<Article> articleList = articleRepository.findAll();
         assertThat(articleList.size()).isEqualTo(0);
 
+    }
+
+    @DisplayName("updateArticle: 블로그 글 수정에 성공한다.")
+    @Test
+    public void updateArticle() throws Exception {
+        //given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article savedArticle = articleRepository.save(Article.builder().title(title).content(content).build());
+
+        final String newTitle = "new title";
+        final String newContent = "new content";
+
+        UpdateArticleRequest updateArticleRequest = new UpdateArticleRequest(newTitle, newContent);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(put(url, savedArticle.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(updateArticleRequest)));
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+        Article article = articleRepository.findById(savedArticle.getId()).get();
+
+        assertThat(article.getTitle()).isEqualTo(newTitle);
+        assertThat(article.getContent()).isEqualTo(newContent);
     }
 }
