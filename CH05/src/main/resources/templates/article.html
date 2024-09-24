@@ -23,7 +23,8 @@
                 <section class="mb-5">
                     <p class="fs-5 mb-4" th:text="${article.content}" />
                 </section>
-                <button type="button" class="btn btn-primary btn-sm">수정</button>
+                <button type="button" class="btn btn-primary btn-sm"
+                        th:onclick="|location.href='@{/new-article?id={articleId}(articleId=${article.id})}'|">수정</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="delete-btn">삭제</button>
             </article>
         </div>
