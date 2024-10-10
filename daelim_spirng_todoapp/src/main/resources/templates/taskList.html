@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>할일 목록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>할일 목록</h1>
+    <button type="button" class="btn btn-secondary mb-3" th:onclick="|location.href='@{/new-task}'|">Create New Task</button>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Complete</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.completed ? 'Yes' : 'No'}"></td>
+            <td>
+                <a th:href="@{/new-tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Edit</a>
+                <button type="button" class="btn btn-danger btn-sm delete-btn" th:onclick="|deleteTask(${task.id})|">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    function deleteTask(taskId) {
+        fetch(`/api/tasks/${taskId}`, {
+            method: 'DELETE'
+        }).then(() => {
+            alert('삭제가 완료되었습니다.');
+            location.replace('/tasks');
+        }).catch(err => {
+            console.error('삭제에 실패했습니다.', err);
+        });
+    }
+</script>
+</body>
+</html>
