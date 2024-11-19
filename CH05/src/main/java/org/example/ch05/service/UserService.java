@@ -12,14 +12,24 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Long save(AddUserRequest req) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User newUser = User.builder()
                 .email(req.getEmail())
-                .password(bCryptPasswordEncoder.encode(req.getPassword())) // 패스워드 암호화
+                .password(passwordEncoder.encode(req.getPassword())) // 패스워드 암호화
                 .build();
         return userRepository.save(newUser).getId();
     }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
 
 }

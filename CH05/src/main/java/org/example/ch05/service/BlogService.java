@@ -16,9 +16,9 @@ public class BlogService {
 
     private final ArticleRepository articleRepository;
 
-    public Article save(AddArticleRequest request) {
+    public Article save(AddArticleRequest request, String userName) {
         // db에 request 담긴 값을 Article 테이블에 등록
-        return articleRepository.save(request.toEntity());
+        return articleRepository.save(request.toEntity(userName));
     }
 
     public List<Article> findAll() {

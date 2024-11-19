@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -38,10 +39,10 @@ public class BlogController {
     }
 
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest addArticleRequest) {
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest addArticleRequest, Principal principal) {
 
         // Article 객체를 생성 후 응답
-        Article article = blogService.save(addArticleRequest);
+        Article article = blogService.save(addArticleRequest, principal.getName());
         // return ResponseEntity.ok(article);
         return ResponseEntity.status(HttpStatus.CREATED).body(article);
     }
