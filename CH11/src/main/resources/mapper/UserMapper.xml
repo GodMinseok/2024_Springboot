@@ -6,4 +6,23 @@
     <select id="findById" resultType="org.example.ch11.User">
         SELECT * FROM users WHERE id = #{id}
     </select>
+
+    <select id="findAll" resultType="org.example.ch11.User">
+        SELECT * FROM users
+    </select>
+
+    <insert id="insertUser">
+        INSERT INTO users (name, email) VALUES (#{name}, #{email})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE users
+        SET name = #{name}, email = #{email}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
 </mapper>
