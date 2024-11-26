@@ -32,6 +32,14 @@ public class UserService {
         userMapper.deleteUser(id);
     }
 
+    // 조건에 따라 사용자 필터링
+    public List<User> getUsersByCondition(String name, String email) {
+        return userMapper.findByCondition(name, email);
+    }
 
+    // 다중 ID로 사용자 조회
+    public List<User> getUsersByIds(List<Long> ids) {
+        return userMapper.findByIds(ids);
+    }
 
 }

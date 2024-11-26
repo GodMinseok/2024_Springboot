@@ -4,13 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.ch11.User;
 import org.example.ch11.service.UserService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +20,22 @@ public class UserController {
     @GetMapping
     public List<User> getUsers() {
         return userService.getAllUsers();
+    }
+
+    // 조건에 따라 사용자 조회
+    // http://localhost:8080/users/condition?name=User01
+    @GetMapping("/users/condition")
+    public List<User> getUsersByCondition(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email) {
+        return userService.getUsersByCondition(name, email);
+    }
+
+    // 다중 ID로 사용자 조회
+    // http://localhost:8080/users/ids?ids=1,2
+    @GetMapping("/users/ids")
+    public List<User> getUsersByIds(@RequestParam List<Long> ids) {
+        return userService.getUsersByIds(ids);
     }
 
     @PostMapping
