@@ -7,9 +7,25 @@
         SELECT * FROM users WHERE id = #{id}
     </select>
 
-    <select id="findAll" resultType="org.example.ch11.User">
+    <select id="findByCondition" resultType="org.example.ch11.User">
         SELECT * FROM users
+        <where>
+                <if test="name != null">
+                    AND name = #{name}
+                </if>
+                <if test="email != null">
+                    AND email = #{email}
+                </if>
+        </where>
     </select>
+
+    <select id="findByIds" resultType="org.example.ch11.User">
+        SELECT * FROM users WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 
     <insert id="insertUser">
         INSERT INTO users (name, email) VALUES (#{name}, #{email})
